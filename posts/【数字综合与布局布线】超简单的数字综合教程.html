@@ -1,0 +1,195 @@
+<!DOCTYPE html><html lang="zh_CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>【数字综合与布局布线】超简单的数字综合教程 | TANAKA先生的日常</title><meta name="author" content="zhxtian"><meta name="copyright" content="zhxtian"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="本文介绍candence中innovas使用教程，将以DONGBU1824工艺为例进行阐述。 综合部分所用到的约束文件目录如下：  rtl:存放需要综合的.v文件 synthesis： run_dc.tcsh:bash命令，用于启动综合脚本 constraints： top_constraint.tcl:时钟约束   scripts: dc_setup.tcl dc_flow.tcl run_dc">
+<meta property="og:type" content="website">
+<meta property="og:title" content="【数字综合与布局布线】超简单的数字综合教程">
+<meta property="og:url" content="http://example.com/posts/%E3%80%90%E6%95%B0%E5%AD%97%E7%BB%BC%E5%90%88%E4%B8%8E%E5%B8%83%E5%B1%80%E5%B8%83%E7%BA%BF%E3%80%91%E8%B6%85%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%97%E7%BB%BC%E5%90%88%E6%95%99%E7%A8%8B.html">
+<meta property="og:site_name" content="TANAKA先生的日常">
+<meta property="og:description" content="本文介绍candence中innovas使用教程，将以DONGBU1824工艺为例进行阐述。 综合部分所用到的约束文件目录如下：  rtl:存放需要综合的.v文件 synthesis： run_dc.tcsh:bash命令，用于启动综合脚本 constraints： top_constraint.tcl:时钟约束   scripts: dc_setup.tcl dc_flow.tcl run_dc">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240825150205.png">
+<meta property="article:published_time" content="2024-08-25T11:20:13.000Z">
+<meta property="article:modified_time" content="2024-08-26T06:45:40.989Z">
+<meta property="article:author" content="zhxtian">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240825150205.png"><link rel="shortcut icon" href="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240825150240.png"><link rel="canonical" href="http://example.com/posts/%E3%80%90%E6%95%B0%E5%AD%97%E7%BB%BC%E5%90%88%E4%B8%8E%E5%B8%83%E5%B1%80%E5%B8%83%E7%BA%BF%E3%80%91%E8%B6%85%E7%AE%80%E5%8D%95%E7%9A%84%E6%95%B0%E5%AD%97%E7%BB%BC%E5%90%88%E6%95%99%E7%A8%8B.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css?v=4.13.0"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.1/css/all.min.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: {"path":"/search.xml","preload":false,"top_n_per_article":1,"unescape":false,"languages":{"hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found"}},
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":false,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy Successful',
+    error: 'Copy Error',
+    noSupport: 'Browser Not Supported'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  dateSuffix: {
+    just: 'Just now',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid@4.11.1/dist/infinitegrid.min.js',
+    buttonText: 'Load More'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【数字综合与布局布线】超简单的数字综合教程',
+  isPost: false,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: false,
+  postUpdate: '2024-08-26 14:45:40'
+}</script><script>(win=>{
+      win.saveToLocal = {
+        set: (key, value, ttl) => {
+          if (ttl === 0) return
+          const now = Date.now()
+          const expiry = now + ttl * 86400000
+          const item = {
+            value,
+            expiry
+          }
+          localStorage.setItem(key, JSON.stringify(item))
+        },
+      
+        get: key => {
+          const itemStr = localStorage.getItem(key)
+      
+          if (!itemStr) {
+            return undefined
+          }
+          const item = JSON.parse(itemStr)
+          const now = Date.now()
+      
+          if (now > item.expiry) {
+            localStorage.removeItem(key)
+            return undefined
+          }
+          return item.value
+        }
+      }
+    
+      win.getScript = (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        script.onerror = reject
+        script.onload = script.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          script.onload = script.onreadystatechange = null
+          resolve()
+        }
+
+        Object.keys(attr).forEach(key => {
+          script.setAttribute(key, attr[key])
+        })
+
+        document.head.appendChild(script)
+      })
+    
+      win.getCSS = (url, id = false) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onerror = reject
+        link.onload = link.onreadystatechange = function() {
+          const loadState = this.readyState
+          if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+          link.onload = link.onreadystatechange = null
+          resolve()
+        }
+        document.head.appendChild(link)
+      })
+    
+      win.activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+        if (t === 'dark') activateDarkMode()
+        else if (t === 'light') activateLightMode()
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+      const detectApple = () => {
+        if(/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+          document.documentElement.classList.add('apple')
+        }
+      }
+      detectApple()
+    })(window)</script><meta name="generator" content="Hexo 7.3.0"></head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240825150205.png" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="sidebar-site-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">0</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><hr class="custom-hr"/><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div></div></div><div class="page" id="body-wrap"><header class="not-home-page" id="page-header"><nav id="nav"><span id="blog-info"><a href="/" title="TANAKA先生的日常"><span class="site-name">TANAKA先生的日常</span></a></span><div id="menus"><div id="search-button"><a class="site-page social-icon search" href="javascript:void(0);"><i class="fas fa-search fa-fw"></i><span> Search</span></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 主页</span></a></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fa fa-graduation-cap"></i><span> 博文</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/categories/"><i class="fa-fw fa fa-archive"></i><span> 分类</span></a></li><li><a class="site-page child" href="/tags/"><i class="fa-fw fa fa-tags"></i><span> 标签</span></a></li><li><a class="site-page child" href="/archives/"><i class="fa-fw fa fa-folder-open"></i><span> 归档</span></a></li></ul></div><div class="menus_item"><a class="site-page group" href="javascript:void(0);"><i class="fa-fw fas fa-list"></i><span> 生活</span><i class="fas fa-chevron-down"></i></a><ul class="menus_item_child"><li><a class="site-page child" href="/shuoshuo/"><i class="fa-fw fa fa-comments-o"></i><span> 分享</span></a></li><li><a class="site-page child" href="/photos/"><i class="fa-fw fa fa-camera-retro"></i><span> 相册</span></a></li><li><a class="site-page child" href="/music/"><i class="fa-fw fa fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 影视</span></a></li></ul></div><div class="menus_item"><a class="site-page" href="/links/"><i class="fa-fw fa fa-link"></i><span> 友链</span></a></div><div class="menus_item"><a class="site-page" href="/comment/"><i class="fa-fw fa fa-paper-plane"></i><span> 留言板</span></a></div><div class="menus_item"><a class="site-page" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于笔者</span></a></div></div><div id="toggle-menu"><a class="site-page" href="javascript:void(0);"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="page-site-info"><h1 id="site-title">【数字综合与布局布线】超简单的数字综合教程</h1></div></header><main class="layout" id="content-inner"><div id="page"><div id="article-container"><p>本文介绍candence中innovas使用教程，将以DONGBU1824工艺为例进行阐述。</p>
+<p>综合部分所用到的约束文件目录如下：</p>
+<ul>
+<li>rtl:存放需要综合的.v文件</li>
+<li>synthesis：<ul>
+<li>run_dc.tcsh:bash命令，用于启动综合脚本</li>
+<li>constraints：<ul>
+<li>top_constraint.tcl:时钟约束</li>
+</ul>
+</li>
+<li>scripts:<ul>
+<li>dc_setup.tcl</li>
+<li>dc_flow.tcl</li>
+<li>run_dc.tcsh</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="1-导入rtl文件"><a href="#1-导入rtl文件" class="headerlink" title="1 导入rtl文件"></a>1 导入rtl文件</h2><p>将准备好的需要综合的verilog代码存入rtl&#x2F;xxx.v。本文以spi的从机为例，其文件名为spi_slave.v。</p>
+<h2 id="2-设置constraint-tcl时钟约束"><a href="#2-设置constraint-tcl时钟约束" class="headerlink" title="2 设置constraint.tcl时钟约束"></a>2 设置constraint.tcl时钟约束</h2><p>打开constraints&#x2F;top_constraint.tcl，修改时钟约束脚本。</p>
+<blockquote>
+<p>始终约束脚本用于综合工具中的时序分析。<br>它依次定义了扇出（限制信号驱动的门数）；设置时钟周期，时钟的不确定性与过渡时间<br>false_path标记rst端口的路径为虚假路径，不进行时序分析<br>max_delay设置所有输入到所有输出的最大延时</p>
+</blockquote>
+<p>对于本项目中，时钟信号为sclk，复位信号为csb。在vim窗口中快速替换端口名称即可：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">:%s#clk#sclk#g</span><br></pre></td></tr></table></figure>
+
+<p>对于input_delay不太好理解，可以参考下图：<img src="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240826141529.png">来源于文章：<img src="https://blog.csdn.net/icxiaoge/article/details/132351801?ops_request_misc=%257B%2522request%255Fid%2522%253A%2522172465269916800180615801%2522%252C%2522scm%2522%253A%252220140713.130102334..%2522%257D&request_id=172465269916800180615801&biz_id=0&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduend~default-1-132351801-null-null.142%5Ev100%5Epc_search_result_base1&utm_term=set_input_delay%E7%9A%84%E6%9C%AC%E8%B4%A8&spm=1018.2226.3001.4187"></p>
+<h2 id="3-设置dc-flow-tcl工作流文件"><a href="#3-设置dc-flow-tcl工作流文件" class="headerlink" title="3 设置dc_flow.tcl工作流文件"></a>3 设置dc_flow.tcl工作流文件</h2><p>跑综合的过程，不需要改。</p>
+<h2 id="4-设置dc-setup-tcl配置文件"><a href="#4-设置dc-setup-tcl配置文件" class="headerlink" title="4 设置dc_setup.tcl配置文件"></a>4 设置dc_setup.tcl配置文件</h2><ol>
+<li><p>修改LIB_PATH<br><code>set LIB_PATH &quot;/cad/DONGBU/DONGBU1824/DBH_STD_1824HP18BA_HDSVT1P8V_ISO_14Q1_V02/LIBERTY&quot;</code><br>注意是数字库，不是模拟库</p>
+</li>
+<li><p>修改target_library<br><code>set vlgfiles [list \spi_slave.v \]</code></p>
+</li>
+<li><p>修改db文件<br><code>set target_library &#123;1824HP18BA_HDSVT1P8V_ISO_SS_1P62V_150C.db&#125;</code></p>
+</li>
+</ol>
+<h2 id="5-运行综合"><a href="#5-运行综合" class="headerlink" title="5 运行综合"></a>5 运行综合</h2><p>在synthesis文件中打开terminal：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">synopsys.setup</span><br><span class="line">bash run\_dc.tcsh</span><br></pre></td></tr></table></figure>
+<p>可在生成的result文件夹下查看输出结果<img src="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240826144256.png"></p>
+</div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="https://raw.githubusercontent.com/zhxtian/blogpic/main/tools/20240825150205.png" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">zhxtian</div><div class="author-info__description">懒得介绍了</div></div><div class="card-info-data site-data is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">0</div></a><a href="/tags/"><div class="headline">Tags</div><div class="length-num">0</div></a><a href="/categories/"><div class="headline">Categories</div><div class="length-num">0</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/xxxxxx"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>Announcement</span></div><div class="announcement_content">This is my Blog</div></div><div class="sticky_layout"><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"></div></div><div class="card-widget card-archives"></div><div class="card-widget card-webinfo"><div class="item-headline"><i class="fas fa-chart-line"></i><span>Info</span></div><div class="webinfo"><div class="webinfo-item"><div class="item-name">Article :</div><div class="item-count">0</div></div><div class="webinfo-item"><div class="item-name">UV :</div><div class="item-count" id="busuanzi_value_site_uv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">PV :</div><div class="item-count" id="busuanzi_value_site_pv"><i class="fa-solid fa-spinner fa-spin"></i></div></div><div class="webinfo-item"><div class="item-name">Last Update :</div><div class="item-count" id="last-push-date" data-lastPushDate="2024-12-01T03:11:28.981Z"><i class="fa-solid fa-spinner fa-spin"></i></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2024 By zhxtian</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between Single-column and Double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button id="go-up" type="button" title="Back To Top"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js?v=4.13.0"></script><script src="/js/main.js?v=4.13.0"></script><script src="https://cdn.jsdelivr.net/npm/@fancyapps/ui@5.0.33/dist/fancybox/fancybox.umd.min.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script><div id="local-search"><div class="search-dialog"><nav class="search-nav"><span class="search-dialog-title">Search</span><span id="loading-status"></span><button class="search-close-button"><i class="fas fa-times"></i></button></nav><div class="is-center" id="loading-database"><i class="fas fa-spinner fa-pulse"></i><span>  Loading the Database</span></div><div class="search-wrap"><div id="local-search-input"><div class="local-search-box"><input class="local-search-box--input" placeholder="Search for Posts" type="text"/></div></div><hr/><div id="local-search-results"></div><div id="local-search-stats-wrap"></div></div></div><div id="search-mask"></div><script src="/js/search/local-search.js?v=4.13.0"></script></div></div></body></html>
